@@ -1,0 +1,28 @@
+{
+  "name": "order-api",
+  "version": "1.0.0",
+  "description": "A simple API for managing orders using AWS Lambda and MySQL.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "sam local start-api"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "api",
+    "mysql"
+  ],
+  "author": "OneMetric",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1664.0",
+    "dotenv": "^16.4.5",
+    "mysql2": "^3.11.0",
+    "razorpay": "^2.9.4"
+  },
+  "devDependencies": {
+    "aws-sdk-client-mock": "^1.0.0",
+    "jest": "^29.0.0"
+  }
+}

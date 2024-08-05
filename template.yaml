@@ -1,0 +1,148 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: Sample Node.js application for creating and retrieving orders with MySQL
+
+Globals:
+  Function:
+    Timeout: 30
+    MemorySize: 128
+
+Parameters:
+  DBHost:
+    Type: String
+    Default: "onemetric-dev-db.chg6s4sq85rw.us-east-1.rds.amazonaws.com"
+  DBUser:
+    Type: String
+    Default: "admin"
+  DBPassword:
+    Type: String
+    Default: "Nisharg2025"
+  DBName:
+    Type: String
+    Default: "onemetricdev"
+  DBPort:
+    Type: String
+    Default: "3306"
+
+Resources:
+  GetOrderFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: main.getOrder
+      Runtime: nodejs20.x
+      CodeUri: .
+      Environment:
+        Variables:
+          DB_HOST: !Ref DBHost
+          DB_USER: !Ref DBUser
+          DB_PASSWORD: !Ref DBPassword
+          DB_NAME: !Ref DBName
+          DB_PORT: !Ref DBPort
+      Events:
+        Api:
+          Type: 'Api'
+          Properties:
+            Path: /order/{id}
+            Method: get
+
+  GetPlanListFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: main.getPlanList
+      Runtime: nodejs20.x
+      CodeUri: .
+      Environment:
+        Variables:
+          DB_HOST: !Ref DBHost
+          DB_USER: !Ref DBUser
+          DB_PASSWORD: !Ref DBPassword
+          DB_NAME: !Ref DBName
+          DB_PORT: !Ref DBPort
+      Events:
+        GetPlanListApi:
+          Type: 'Api'
+          Properties:
+            Path: /plans
+            Method: get
+
+  CreatePlanFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: main.createPlan
+      Runtime: nodejs20.x
+      CodeUri: .
+      Environment:
+        Variables:
+          DB_HOST: !Ref DBHost
+          DB_USER: !Ref DBUser
+          DB_PASSWORD: !Ref DBPassword
+          DB_NAME: !Ref DBName
+          DB_PORT: !Ref DBPort
+      Events:
+        CreatePlanApi:
+          Type: 'Api'
+          Properties:
+            Path: /plans
+            Method: post
+
+  DeletePlanFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: main.deletePlan
+      Runtime: nodejs20.x
+      CodeUri: .
+      Environment:
+        Variables:
+          DB_HOST: !Ref DBHost
+          DB_USER: !Ref DBUser
+          DB_PASSWORD: !Ref DBPassword
+          DB_NAME: !Ref DBName
+          DB_PORT: !Ref DBPort
+      Events:
+        DeletePlanApi:
+          Type: 'Api'
+          Properties:
+            Path: /plans/{id}
+            Method: delete
+
+  CreatePaymentFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: main.createPayment
+      Runtime: nodejs20.x
+      CodeUri: .
+      Timeout: 40
+      Environment:
+        Variables:
+          DB_HOST: !Ref DBHost
+          DB_USER: !Ref DBUser
+          DB_PASSWORD: !Ref DBPassword
+          DB_NAME: !Ref DBName
+          DB_PORT: !Ref DBPort
+      Events:
+        CreatePaymentApi:
+          Type: 'Api'
+          Properties:
+            Path: /payment
+            Method: post
+
+  TransactionHistoryFunction:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: main.transactionHistoryAPI
+      Runtime: nodejs20.x
+      CodeUri: .
+      Timeout: 30
+      Environment:
+        Variables:
+          DB_HOST: !Ref DBHost
+          DB_USER: !Ref DBUser
+          DB_PASSWORD: !Ref DBPassword
+          DB_NAME: !Ref DBName
+          DB_PORT: !Ref DBPort
+      Events:
+        TransactionHistoryEndpoint:
+          Type: 'Api'
+          Properties:
+            Path: /transactionHistory/{user_id}
+            Method: get
